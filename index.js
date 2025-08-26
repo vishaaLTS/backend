@@ -72,5 +72,23 @@ app.delete("/deleteStudent/:rollno", async (req, res) => {
   }
 });
 
- 
+ app.put("/updateStudent/:rollno", async (req, res) => {
+  try {
+    const updatedStudent = await Student1.findOneAndUpdate(
+      { rollno: req.params.rollno },   
+      req.body,                       
+      { new: true }                   
+    );
+
+    if (!updatedStudent) {
+      return res.status(404).send("Student not found");
+    }
+    res.status(200).json(updatedStudent);
+  } catch (error) {
+    console.error("Update Error:", error);
+    res.status(500).send("Error updating student");
+  }
+});
+
+
 app.listen(3000)
